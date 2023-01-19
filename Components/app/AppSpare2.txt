@@ -1,0 +1,198 @@
+import React from 'react';
+import Split from 'react-split';
+import {functions} from '../../functions'
+import './App.css';
+import Sidebar from '../sidebar/Sidebar';
+import Editor from '../editor/Editor';
+import AlertBox from '../alert/AlertBox';
+import { nanoid } from 'nanoid';
+import Button from '../button/Button';
+
+export default function App(){
+    const [alert, setAlert] = React.useState(
+        {
+            state: false,
+            type: null,
+            message: null
+        }
+    );
+
+    const [notes, setNotes] = React.useState([]);
+    const [currentNoteId, setCurrentNoteId] = React.useState(
+        (notes[0] && notes[0].id) || '' );
+    const [currentNote, setCurrentNote] = React.useState(
+        (notes[0] && notes[0]) || '' 
+    );
+        
+    const placeholderText = '## Type your note title here...'
+    const [markdown, setMarkdown] = React.useState(placeholderText);
+
+    function createNewNote(){
+        // const currentNote = findCurrentNote();
+        const newNote = {
+                id: nanoid(),
+                body: markdown,
+                dateCreated: functions.getDate()
+            }
+
+        if (notes.length === 0){
+            setNotes(prevNotes => [newNote, ...prevNotes]);
+            setCurrentNoteId(newNote.id);
+            setCurrentNote(newNote);
+        } else{
+
+            if (currentNote.body === placeholderText){ 
+                setAlert(prev => { 
+                    return { 
+                    ...prev,
+                    state: true, 
+                    type: 'warning', 
+                    message: "Note cannot be blank."
+                    }
+                });
+                console.log(currentNote.body)
+                console.log(placeholderText)
+                return
+            }
+
+            if (currentNote.id === currentNoteId){
+                updateNote(markdown);
+            }
+            console.log(notes)
+            
+        }
+    }
+
+    function saveNote (){}
+
+    function findCurrentNote(){
+        return notes.find(note => note.id === currentNoteId) || notes[0];
+    }
+
+    function updateNote (text){
+        setNotes(oldNotes => oldNotes.map(oldNote => {
+            return oldNote.id === currentNoteId
+            ? {...oldNote, body: text}
+            : oldNote
+        }))
+    }
+
+    function handleChange(event){
+        setMarkdown(event.target.value);
+        updateNote(markdown)
+    }
+    
+    // function handleNoteChange (event){
+    //     const contentEditableText = event.target.value;
+    //     setMarkdown(prev => {
+    //         return {
+    //         ...prev,
+    //         markdown: contentEditableText,
+    //         markdownPreview: functions.filterText(contentEditableText)
+    //         }
+    //     });
+    //     console.log(markdown)
+    // }
+
+    // function handleTitleChange(event){
+    //     const contentEditableText = event.target.value;
+    //         setMarkdown(prev => {
+    //             return{
+    //             ...prev,
+    //             noteTitle: contentEditableText,
+    //             noteTitlePreview: functions.filterText(contentEditableText)
+    //             }
+    //         });
+
+    //         console.log(markdown)
+    // }
+
+    // function addNewNote(){  
+    //     // if(note.length > 0 &&markdown.markdown === placeholderText && markdown.noteTitle === placeholderTitle){
+    //     //     setAlert(prev => { 
+    //     //         return { 
+    //     //         ...prev,
+    //     //         state: true, 
+    //     //         type: 'warning', 
+    //     //         message: "Note cannot be blank."
+    //     //         }
+    //     //     }
+    //     // )
+    //     //     return
+    //     // }
+
+    //     // else{ 
+    //         setMarkdown(prev => {
+    //             return{
+    //             ...prev,
+    //             dateCreated: functions.getDate()
+    //             }
+    //         });
+    
+    //         const newNote = {
+    //             id: nanoid(),
+    //             body: markdown
+    //         }
+
+    //         setNotes(prev => [newNote, ...prev]);
+    //         setCurrentNoteId(newNote.id)
+    //     // }
+    //     console.log(notes)
+    // }
+
+    function closeAlertBox(){
+        setAlert(prev => {
+            return{ ...prev, state: false}
+        });
+    }
+
+
+    return (
+        <div className='app'>
+            { alert.state &&
+                <AlertBox
+                alert={alert}
+                handleClick={closeAlertBox}
+                />
+            }
+
+            {notes.length !== 0? 
+            <Split
+                sizes={[25, 75]}
+                gutterSize={8}
+                minSize={300}
+                className='flex'>
+
+                    <Sidebar
+                        notes={notes}
+                        currentNoteId={currentNoteId}
+                    />
+                    <Editor
+                        markdown={markdown}
+                        notes={notes}
+                        createNewNote={createNewNote}
+                        currentNoteId={currentNoteId}
+                        findCurrentNote={findCurrentNote}
+                        handleChange={handleChange}
+                        // handleTitleChange={handleTitleChange}
+                        // handleNoteChange={handleNoteChange}
+                    />
+            </Split>:
+
+            <div className='no-notes'>
+                <h1>
+                    You have no notes
+                </h1>
+               <Button
+                    children='Create one now'
+                    width='fit-content'
+                    fontSize='1rem'
+                    backgroundColor='#1c2a5a'
+                    padding='1rem 2rem'
+                    handleClick={createNewNote}
+               />
+            </div>
+}
+        </div>
+    )
+}
