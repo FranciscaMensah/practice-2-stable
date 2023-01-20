@@ -17,12 +17,18 @@ export default function App(){
         }
     );
 
-    const [notes, setNotes] = React.useState([]);
+    const [notes, setNotes] = React.useState(
+        JSON.parse(localStorage.getItem('notes')) || []
+        );
     const [currentNoteId, setCurrentNoteId] = React.useState(
           (notes[0] && notes[0].id) || '' );
         
     const placeholderText = 'New note'
     // const [markdown, setMarkdown] = React.useState(placeholderText);
+
+    React.useEffect(() => {
+        localStorage.setItem('notes', JSON.stringify(notes));
+    }, [notes])
 
     function createNewNote(){
         // const currentNote = findCurrentNote();
@@ -55,6 +61,13 @@ export default function App(){
         updateNote(event.target.value)
         // console.log(notes)
     }
+
+    function deleteNote(event, noteId){
+        event.stopPropagation();
+        setNotes(prevNotes=> {
+            return prevNotes.filter(note => note.id !== noteId)
+        })
+    }
     
     function closeAlertBox(){
         setAlert(prev => {
@@ -85,6 +98,7 @@ export default function App(){
                         currentNoteId={currentNoteId}
                         setCurrentNoteId={setCurrentNoteId}
                         createNewNote={createNewNote}
+                        deleteNote={deleteNote}
                     />
                     { 
                         currentNoteId && 

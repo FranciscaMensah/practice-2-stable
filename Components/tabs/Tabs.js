@@ -5,15 +5,16 @@ export default function Tab(props){
 
     const options = {
         active: {
-            color: 'green',
-            textTransform: 'uppercase',
-            letterSpacing: '.2rem',
+            color: 'white',
+            // textTransform: 'uppercase',
+            backgroundColor: '#1c2a5a',
+            letterSpacing: '.15rem',
             transform: '0s'
         },
 
         inactive: {
             color: 'inherit',
-            fontWeight: '400'
+            // fontWeight: '400'
         }
     }
 

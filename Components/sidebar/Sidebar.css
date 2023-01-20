@@ -1,6 +1,9 @@
 .sidebar{
     padding: 0 1rem;
-    /* max-width: 600px; */
+    min-width: 300px;
+    max-height: 95vh;
+    position: relative;
+    overflow-y: scroll;
 }
 
 .sidebar-header{
@@ -8,6 +11,11 @@
     align-items: center;
     padding: 1rem 0 2rem .5rem;
     justify-content: space-between;
+    position: sticky;
+    top: 0rem;
+    left: 0rem;
+    z-index: 1;
+    background-color:#fafafa;
 }
 
 .selected-note{
@@ -30,27 +38,59 @@
 }
 
 .notes > li{
-    padding: .6rem;
+    position: relative;
+    padding: .9rem .6rem;
     cursor: pointer;
+    border-bottom: 1px solid #1c2a5a1f;
 }
 
-.grid-1{
+.unselected-note:hover{
+    background-color: #f0f1f5;
+}
+
+.selected-note:hover{
+    background-color: #152044;
+}
+
+/* .grid-1{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: min-max(100px, auto);
-    /* grid-auto-columns: 1rem; */
+    /* grid-auto-columns: 1rem; 
     grid-gap: 5px;
     min-width: 340px;
     /* max-width: 100%; */
-    /* margin: 0 auto; */
+    /* margin: 0 auto; 
+} */
+
+.grid-1{
+    display: flex;
+    flex-direction: column;
 }
 
 .date{
-    grid-column: 2/3;
+    margin-bottom: .5rem;
+    font-size: .8rem;
+}
+
+.deep{
+    color: #77809e;
+}
+
+.light{
     color: #bfc4d3;
 }
 
 .summary-title{
-    grid-column: 1/13;
     font-size: 1rem;
+}
+
+.btn-delete{
+    position: absolute;
+    right: 0;
+    top: 1rem;
+}
+
+.btn-delete:hover{
+    color: #b1b5c4;
 }

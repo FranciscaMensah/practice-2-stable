@@ -13,6 +13,7 @@ export default function Button ({
     margin,
     padding,
     children,
+    className,
     handleClick
 }){
 
@@ -33,7 +34,7 @@ export default function Button ({
         <button 
             style={options}
             onClick={handleClick}
-            className='button'>
+            className={`button ${className}`} >
                 {children? children: 'Save'}
         </button>
     )

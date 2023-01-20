@@ -10,8 +10,10 @@
 }
 
 .text-area{
-    min-height: 50vh;
-    border: 1px solid #eeeeee;
+    min-height: 70vh;
+    overflow-y: scroll;
+    /* border: 1px solid #eeeeee; */
+    border: 2px solid #1c2a5a2c;
     background-color: white;
     color: #1c2a5a81;
     padding: 1.5rem 1rem;
@@ -32,13 +34,13 @@
 .title-area{
     padding: 1rem .9rem;
     outline: 2px solid #00000000;
-    border: 1px solid #00000010;
+    /* border: 1px solid #00000010; */
     color: #1c2a5af6;
 }
 
 .text-area:focus,
 .title-area:focus{
-    border: 2px solid #1c2a5a2c;
+    border: 2px solid #0a0f242c;
     outline: none;
     color: inherit;
 }

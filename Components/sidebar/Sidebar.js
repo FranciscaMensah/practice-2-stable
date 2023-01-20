@@ -1,6 +1,7 @@
 import React from 'react';
 import { functions } from '../../functions';
 import './Sidebar.css';
+import Button from '../button/Button'
 import {IoAddCircle} from 'react-icons/io5';
 
 export default function Sidebar(props){
@@ -12,14 +13,26 @@ export default function Sidebar(props){
         return <li 
                     key={note.id}
                     onClick={()=>{props.setCurrentNoteId(note.id)}}
-                    className={`grid-1 ${note.id === props.currentNoteId ? 'selected-note' : ''}`}
+                    className={`grid-1 ${note.id === props.currentNoteId ? 'selected-note' : 'unselected-note'}`}
                     >
-
-                        <span className='date'>
+                        <span className={`date ${note.id === props.currentNoteId ? 'light' : 'deep'}`}>
                             {date} - {hours}:{minutes} {ampm}
                         </span>
+                        
                         <span className='summary-title'>
                             {functions.getTextPortion(note.body, 15)}
+                        </span>
+                        <span>
+                        <Button
+                            children="&#9587;"
+                            backgroundColor='inherit'
+                            fontWeight='bold'
+                            color={note.id === props.currentNoteId ? 'white': '#d3d3d3'}
+                            border='none'
+                            margin='0 0 0 1rem'
+                            className='btn-delete'
+                            handleClick={(event)=>{props.deleteNote(event, note.id)}}
+                        />
                         </span>
                 </li>
     })

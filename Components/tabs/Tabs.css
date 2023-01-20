@@ -2,6 +2,11 @@
     width: 90%;
     justify-content: space-between;
     align-items: baseline;
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: 1rem 0;
+    background-color: #fafafa;
 }
 
 .tabs button{

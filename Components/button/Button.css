@@ -5,3 +5,13 @@
     color: white;
     border-radius: .2rem;
 }
+
+.disappearing-btn{
+    opacity: 0;
+    transition: .5s ease;
+}
+
+.disappearing-btn:hover{
+    opacity: 1;
+    transition: .5s ease;
+}
